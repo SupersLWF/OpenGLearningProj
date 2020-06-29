@@ -1,6 +1,6 @@
 #pragma once
 #include<glm/glm.hpp>
-#include<GL/glxew.h>
+#include<GL/glew.h>
 
 class Vertex//定点类
 {

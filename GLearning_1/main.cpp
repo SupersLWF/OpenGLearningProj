@@ -24,7 +24,7 @@ int main(int _Argc, char** argv)
 		//绘制片元网格
 		mesh.Draw();
 		
-		display.update();//display内部有缓冲区交换函数，此函数作用是交换，然后update窗口
+		display.update();//display内部有缓冲区交换函数，此函数作用是交换缓冲区，然后update窗口
 
 	}
 
