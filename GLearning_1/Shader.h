@@ -11,6 +11,8 @@ class Shader//着色器列表
 
 public:
 	Shader(const std::string filename);//此参数用于获取 着色器文本 的路径
+
+	void Bind();
 	~Shader();
 };
 

@@ -20,15 +20,33 @@ std::string LoadShader(const std::string& filename) {
 	//记得改为c语言的文件打开方式
 	FILE* shaderfile;
 
-	std::string output;
-	std::string line;
+	char* buf = NULL;
+
 
 	if (!fopen_s(&shaderfile, filename.c_str(), "wb"))
 	{
-		//fgets()
+		char *Temp = NULL;
+		int MaxTempSize = 0;
+		while (fscanf_s(shaderfile, "%[^\n]", Temp))//读取脚本文件时，可能需要跳过换行符
+		{
+			fgetc(shaderfile);
+			
+			MaxTempSize += strlen(Temp);
+			strcat_s(buf, MaxTempSize, Temp);
+		}
+
+		
+
+
+	}
+	else {
+		std::cerr << "file open error" << std::endl;
 	}
 
+	return std::string(buf);
 }
+
+
 
 static GLuint CreateShader(const std::string& text, GLenum ShaderType);//来自GLenum的shadertype常量
 
@@ -60,7 +78,7 @@ Shader::Shader(const std::string filename)
 {
 	m_pragmram = glCreateProgram();
 
-	m_shaders[0] = CreateShader(LoadShader(filename + ".vs"),GL_VERTEX_SHADER);//分别创建顶点着色器，以及片元着色器
+	m_shaders[0] = CreateShader(LoadShader(filename + ".vs"), GL_VERTEX_SHADER);//分别创建顶点着色器，以及片元着色器
 	m_shaders[1] = CreateShader(LoadShader(filename + ".fs"), GL_FRAGMENT_SHADER);
 
 	for (unsigned int i = 0; i < numShaders; i++) {
@@ -72,6 +90,13 @@ Shader::Shader(const std::string filename)
 	glLinkProgram(m_pragmram);//链接shader
 
 	glValidateProgram(m_pragmram);//验证shader
+
+	Bind();
+}
+
+void Shader::Bind()
+{
+	glUseProgram(m_pragmram);
 }
 
 Shader::~Shader() {
@@ -82,6 +107,6 @@ Shader::~Shader() {
 
 	}
 
-	glDelete
+	glDeleteProgram(m_pragmram);
 
 }
