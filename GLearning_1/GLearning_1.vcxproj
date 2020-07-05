@@ -153,6 +153,10 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Shader.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resource\BasicShader.fs" />
+    <None Include="Resource\BasicShader.vs" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

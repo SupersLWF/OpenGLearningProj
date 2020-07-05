@@ -2,6 +2,7 @@
 #include<GL/glew.h>
 #include"Display.h"
 #include"Mesh.h"
+#include"Shader.h"
 
 int main(int _Argc, char** argv)
 {
@@ -16,6 +17,8 @@ int main(int _Argc, char** argv)
 	//初始化片元网格
 	Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
 
+	Shader shader("../GLearning_1/Resource/BasicShader");//此处设置同一名字，load的时候，在loadshader函数的参数列表中加入后缀。
+
 	//此while循环用于接收opengl调用
 	while (!display.IsClosed())
 	{
@@ -24,6 +27,8 @@ int main(int _Argc, char** argv)
 		//绘制片元网格
 		mesh.Draw();
 		
+		shader.Bind();
+
 		display.update();//display内部有缓冲区交换函数，此函数作用是交换缓冲区，然后update窗口
 
 	}

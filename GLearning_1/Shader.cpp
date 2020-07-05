@@ -1,6 +1,6 @@
 #include "Shader.h"
 #include<string>
-#include<iostream>
+#include<ifstream>
 
 //此函数与OpenGL无关
 static void CheckShaderError(GLuint shader,//与之前定义的着色器管理常数类型一致
@@ -17,33 +17,51 @@ void CheckShaderError(GLuint shader, GLuint Flag, bool isProgram, const std::str
 static std::string LoadShader(const std::string& filename);
 
 std::string LoadShader(const std::string& filename) {
-	//记得改为c语言的文件打开方式
-	FILE* shaderfile;
 
-	char* buf = NULL;
+	std::ifstream file;
 
+	file.open((filename).c_str());
 
-	if (!fopen_s(&shaderfile, filename.c_str(), "wb"))
+	std::string output;
+	std::string line;
+
+	if (file.is_open())
 	{
-		char *Temp = NULL;
-		int MaxTempSize = 0;
-		while (fscanf_s(shaderfile, "%[^\n]", Temp))//读取脚本文件时，可能需要跳过换行符
-		{
-			fgetc(shaderfile);
-			
-			MaxTempSize += strlen(Temp);
-			strcat_s(buf, MaxTempSize, Temp);
+		while (file.good()) {
+			getline(file, line);
+			output.append(line + "\n");
 		}
-
-		
-
-
-	}
-	else {
-		std::cerr << "file open error" << std::endl;
 	}
 
-	return std::string(buf);
+	return output;
+	//记得改为c语言的文件打开方式
+	//constexpr auto MaxTempSize = 1024;
+	//	FILE* shaderfile;
+	//
+	//	char* buf = {0};
+	//
+	//
+	//	if (!fopen_s(&shaderfile, filename.c_str(), "wb"))
+	//	{
+	//		char Temp[MaxTempSize];
+	//		int MaxSize = 0;
+	//		while (fscanf_s(shaderfile, "%[^\n]", Temp))//读取脚本文件时，可能需要跳过换行符
+	//		{
+	//			fgetc(shaderfile);
+	//			
+	//			MaxSize += strlen(Temp);
+	//			strcat_s(buf, MaxSize, Temp);
+	//		}
+	//
+	//		
+	//
+	//
+	//	}
+	//	else {
+	//		std::cerr << "file open error" << std::endl;
+	//	}
+	//
+	//	return std::string(buf);
 }
 
 
@@ -91,7 +109,7 @@ Shader::Shader(const std::string filename)
 
 	glValidateProgram(m_pragmram);//验证shader
 
-	Bind();
+	
 }
 
 void Shader::Bind()
